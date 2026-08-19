@@ -1,0 +1,1755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURELIA — Autonomous Engineering Intelligence</title>
+
+<!-- ── Social / SEO metadata ────────────────────────────────── -->
+<meta property="og:type"         content="website">
+<meta property="og:site_name"    content="AURELIA">
+<meta property="og:url"          content="https://miorfaridhal.github.io/aurelia-demo/">
+<meta property="og:title"        content="AURELIA — Autonomous Engineering Intelligence">
+<meta property="og:description"  content="A multi-agent platform for the delivery lifecycle: 36 agents, a defined execution protocol, vector-backed memory, and a reasoning trace behind every decision. Three live consoles — sprint planning, agentic DevOps, and a model service with online-learning prediction heads.">
+<meta property="og:image"        content="https://miorfaridhal.github.io/aurelia-demo/aurelia-og.png">
+<meta property="og:image:width"  content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt"    content="AURELIA — multi-agent delivery platform with three live consoles">
+
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="AURELIA — Autonomous Engineering Intelligence">
+<meta name="twitter:description" content="Multi-agent platform for the delivery lifecycle. Three live consoles: sprint planning, agentic DevOps, and a model service with online-learning prediction heads.">
+<meta name="twitter:image"       content="https://miorfaridhal.github.io/aurelia-demo/aurelia-og.png">
+
+<meta name="description" content="AURELIA is a multi-agent platform for the software delivery lifecycle — autonomous sprint planning, agentic DevOps operations, and a self-improving model service. Built by Mior Faridhal Aktras Mustapa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #07080d;
+    --bg2: #0c0e16;
+    --bg3: #111422;
+    --border: rgba(255,255,255,0.06);
+    --border-strong: rgba(255,255,255,0.12);
+    --t1: rgba(255,255,255,0.95);
+    --t2: rgba(255,255,255,0.55);
+    --t3: rgba(255,255,255,0.28);
+    --t4: rgba(255,255,255,0.1);
+    --amber: #f59e0b;
+    --amber-dim: #92610a;
+    --amber-glow: rgba(245,158,11,0.15);
+    --blue: #38bdf8;
+    --blue-dim: #1e6b8a;
+    --teal: #2dd4bf;
+    --coral: #fb7185;
+    --violet: #a78bfa;
+    --foresight: #f59e0b;
+    --foundry: #38bdf8;
+    --sentinel: #2dd4bf;
+    --tribunal: #a78bfa;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--t1);
+    font-family: 'IBM Plex Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* ── Custom scrollbar ─────────────────────────────────────── */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--amber-dim); }
+
+  /* ── Selection ────────────────────────────────────────────── */
+  ::selection { background: rgba(245,158,11,0.2); color: var(--amber); }
+
+  /* ── Noise overlay ────────────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ── Navigation ───────────────────────────────────────────── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 48px;
+    border-bottom: 1px solid transparent;
+    transition: background 0.3s, border-color 0.3s;
+  }
+  nav.scrolled {
+    background: rgba(7,8,13,0.9);
+    backdrop-filter: blur(12px);
+    border-color: var(--border);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-mark {
+    width: 32px;
+    height: 32px;
+  }
+  .nav-logo-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+  }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--t3);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--t1); }
+  .nav-cta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--amber);
+    border: none;
+    padding: 9px 20px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ── Hero ─────────────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Large watermark text */
+  .hero-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: clamp(80px, 18vw, 260px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(245,158,11,0.06);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    animation: drift 20s ease-in-out infinite;
+  }
+  @keyframes drift {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.02); }
+  }
+
+  /* Grid lines background */
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245,158,11,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,158,11,0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+  }
+
+  /* Corner brackets */
+  .hero-corner {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    opacity: 0.4;
+  }
+  .hero-corner--tl { top: 80px; left: 48px; border-top: 1px solid var(--amber); border-left: 1px solid var(--amber); }
+  .hero-corner--tr { top: 80px; right: 48px; border-top: 1px solid var(--amber); border-right: 1px solid var(--amber); }
+  .hero-corner--bl { bottom: 48px; left: 48px; border-bottom: 1px solid var(--amber); border-left: 1px solid var(--amber); }
+  .hero-corner--br { bottom: 48px; right: 48px; border-bottom: 1px solid var(--amber); border-right: 1px solid var(--amber); }
+
+  .hero-content { position: relative; z-index: 1; max-width: 1100px; }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-eyebrow-line {
+    width: 40px;
+    height: 1px;
+    background: var(--amber);
+    opacity: 0.6;
+  }
+  .hero-eyebrow-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--amber);
+    opacity: 0.8;
+  }
+
+  .hero-headline {
+    font-size: clamp(32px, 5.5vw, 60px);
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin-bottom: 40px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-headline em {
+    font-family: 'IBM Plex Sans', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--amber);
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 22px);
+    font-weight: 400;
+    color: var(--t2);
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 56px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .btn-primary {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--amber);
+    border: none;
+    padding: 14px 32px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(245,158,11,0.3);
+  }
+  .btn-secondary {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--t2);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+  .btn-secondary:hover { color: var(--t1); }
+  .btn-secondary svg { transition: transform 0.2s; }
+  .btn-secondary:hover svg { transform: translateX(4px); }
+
+  /* Brain count stat */
+  .hero-stats {
+    position: absolute;
+    right: 48px;
+    bottom: 80px;
+    text-align: right;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+  .hero-stat-number {
+    font-size: 72px;
+    font-weight: 800;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(245,158,11,0.5);
+    font-variant-numeric: tabular-nums;
+  }
+  .hero-stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--t3);
+    margin-top: 4px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Ticker bar ───────────────────────────────────────────── */
+  .ticker-bar {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    padding: 12px 0;
+    background: var(--bg2);
+  }
+  .ticker-track {
+    display: flex;
+    gap: 0;
+    animation: ticker 30s linear infinite;
+    width: max-content;
+  }
+  .ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 48px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--t3);
+    white-space: nowrap;
+  }
+  .ticker-item span.accent { color: var(--amber); }
+  .ticker-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--amber);
+    opacity: 0.4;
+    flex-shrink: 0;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── Sections ─────────────────────────────────────────────── */
+  section { padding: 120px 48px; }
+  .section-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber);
+    opacity: 0.7;
+    margin-bottom: 20px;
+  }
+  .section-title {
+    font-size: clamp(26px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .section-title em {
+    font-family: 'IBM Plex Sans', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--amber);
+  }
+  .section-desc {
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--t2);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 64px;
+  }
+
+  /* ── What is AURELIA ──────────────────────────────────────── */
+  .what-section {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .what-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .what-right {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .what-card {
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--amber);
+    padding: 24px 28px;
+    background: rgba(245,158,11,0.02);
+    transition: background 0.2s;
+  }
+  .what-card:hover { background: rgba(245,158,11,0.04); }
+  .what-card-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 8px;
+  }
+  .what-card-desc {
+    font-size: 14px;
+    color: var(--t2);
+    line-height: 1.6;
+  }
+
+  /* Acronym breakdown */
+  .acronym {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 40px;
+  }
+  .acronym-row {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .acronym-letter {
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--amber);
+    width: 28px;
+    flex-shrink: 0;
+  }
+  .acronym-word {
+    font-size: 13px;
+    color: var(--t2);
+    letter-spacing: 0.05em;
+  }
+  .acronym-word em {
+    font-style: normal;
+    color: var(--t1);
+    font-weight: 500;
+  }
+
+  /* ── Domain taxonomy ──────────────────────────────────────── */
+  .domains-section { max-width: 1400px; margin: 0 auto; }
+  .domains-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    margin-bottom: 64px;
+  }
+  .brain-total {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--t3);
+    text-align: right;
+  }
+  .brain-total strong {
+    display: block;
+    font-size: 40px;
+    font-weight: 800;
+    font-family: 'IBM Plex Sans', sans-serif;
+    color: var(--t1);
+    margin-bottom: 2px;
+  }
+
+  .domains-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  .domain-card {
+    background: var(--bg2);
+    padding: 40px 32px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .domain-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--domain-color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .domain-card:hover::before { transform: scaleX(1); }
+  .domain-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle at bottom right, var(--domain-color), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .domain-card:hover::after { opacity: 0.06; }
+  .domain-card:hover {
+    border-color: rgba(255,255,255,0.12);
+    transform: translateY(-2px);
+  }
+  .domain-card--foresight { --domain-color: var(--foresight); }
+  .domain-card--foundry   { --domain-color: var(--foundry); }
+  .domain-card--sentinel  { --domain-color: var(--sentinel); }
+  .domain-card--tribunal  { --domain-color: var(--tribunal); }
+
+  .domain-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--domain-color);
+    margin-bottom: 20px;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .domain-tag-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--domain-color);
+    animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+  .domain-name {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin-bottom: 8px;
+    color: var(--t1);
+  }
+  .domain-identity {
+    font-size: 13px;
+    color: var(--t3);
+    margin-bottom: 28px;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+  .domain-question {
+    font-size: 15px;
+    color: var(--t2);
+    line-height: 1.5;
+    font-style: italic;
+    font-family: 'IBM Plex Sans', serif;
+    font-weight: 300;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .domain-brains {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .domain-brain-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--t3);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+  .domain-card:hover .domain-brain-item { color: var(--t2); }
+  .domain-brain-item::before {
+    content: '';
+    width: 4px;
+    height: 1px;
+    background: var(--domain-color);
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+  .domain-count {
+    margin-top: 28px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--t4);
+  }
+  .domain-count strong {
+    font-size: 22px;
+    color: var(--domain-color);
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* ── Selling points ───────────────────────────────────────── */
+  .why-section { background: var(--bg2); }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 64px;
+  }
+  .why-card {
+    background: var(--bg);
+    padding: 40px 36px;
+    border: 1px solid var(--border);
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .why-card:hover { border-color: var(--border-strong); }
+  .why-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+    opacity: 0.4;
+    margin-bottom: 20px;
+  }
+  .why-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 20px;
+  }
+  .why-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    line-height: 1.2;
+  }
+  .why-desc {
+    font-size: 14px;
+    color: var(--t2);
+    line-height: 1.7;
+  }
+  .why-tag {
+    display: inline-block;
+    margin-top: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber);
+    opacity: 0.6;
+    border: 1px solid rgba(245,158,11,0.2);
+    padding: 3px 10px;
+  }
+
+  /* ── Pipeline visualization ───────────────────────────────── */
+  .pipeline-section { overflow: hidden; }
+  .pipeline-section .section-header {
+    max-width: 600px;
+    margin-bottom: 80px;
+  }
+  .pipeline-track {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 24px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--amber-dim) transparent;
+  }
+  .pipeline-step {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    width: 180px;
+  }
+  .pipeline-connector {
+    display: flex;
+    align-items: center;
+    padding-top: 32px;
+    flex-shrink: 0;
+  }
+  .pipeline-arrow {
+    width: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--amber), transparent);
+    position: relative;
+  }
+  .pipeline-arrow::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -3px;
+    border-left: 6px solid var(--amber);
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    opacity: 0.5;
+  }
+  .pipeline-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 24px 20px;
+    position: relative;
+    height: 100%;
+    transition: border-color 0.2s;
+  }
+  .pipeline-card:hover { border-color: rgba(245,158,11,0.3); }
+  .pipeline-pos {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--t4);
+    margin-bottom: 12px;
+  }
+  .pipeline-brain {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .pipeline-action {
+    font-size: 11px;
+    color: var(--t3);
+    line-height: 1.4;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .pipeline-domain-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+  .pipeline-card--foresight .pipeline-domain-badge { background: var(--foresight); }
+  .pipeline-card--foundry   .pipeline-domain-badge { background: var(--foundry); }
+  .pipeline-card--tribunal  .pipeline-domain-badge { background: var(--tribunal); }
+
+  /* ── Protocol specs ───────────────────────────────────────── */
+  .specs-section { background: var(--bg); }
+  .specs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    max-width: 1200px;
+    margin: 64px auto 0;
+  }
+  .spec-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 40px;
+  }
+  .spec-acronym {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+  .spec-name {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .spec-desc {
+    font-size: 14px;
+    color: var(--t2);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+  .spec-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .spec-item {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--t3);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    line-height: 1.5;
+  }
+  .spec-item::before {
+    content: '→';
+    color: var(--amber);
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+
+  /* ── Roadmap ──────────────────────────────────────────────── */
+  .roadmap-section { background: var(--bg2); }
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2px;
+    margin-top: 64px;
+  }
+  .roadmap-phase {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .roadmap-phase.active {
+    border-color: rgba(245,158,11,0.3);
+    background: rgba(245,158,11,0.02);
+  }
+  .roadmap-phase.active::before {
+    content: 'NOW';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    background: var(--amber);
+    color: var(--bg);
+    padding: 2px 8px;
+    font-weight: 700;
+  }
+  .roadmap-phase:hover { border-color: var(--border-strong); }
+  .roadmap-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--t4);
+    margin-bottom: 8px;
+  }
+  .roadmap-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  .roadmap-domain {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .roadmap-domain--foresight { color: var(--foresight); }
+  .roadmap-domain--foundry { color: var(--foundry); }
+  .roadmap-domain--sentinel { color: var(--sentinel); }
+  .roadmap-domain--tribunal { color: var(--tribunal); }
+  .roadmap-brains {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .roadmap-brain {
+    font-size: 11px;
+    color: var(--t3);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ── CTA Section ──────────────────────────────────────────── */
+  .cta-section {
+    background: var(--bg);
+    text-align: center;
+    padding: 160px 48px;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+  }
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 800px 400px at 50% 100%, rgba(245,158,11,0.06), transparent);
+    pointer-events: none;
+  }
+  .cta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--amber);
+    border: 1px solid rgba(245,158,11,0.25);
+    padding: 6px 16px;
+    margin-bottom: 40px;
+    opacity: 0.8;
+  }
+  .cta-badge-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--amber);
+    animation: pulse 2s ease infinite;
+  }
+  .cta-headline {
+    font-size: clamp(26px, 4vw, 44px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 32px;
+  }
+  .cta-headline em {
+    font-family: 'IBM Plex Sans', serif;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--amber);
+  }
+  .cta-sub {
+    font-size: 17px;
+    color: var(--t2);
+    max-width: 480px;
+    margin: 0 auto 48px;
+    line-height: 1.6;
+  }
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+  }
+  .cta-version {
+    position: relative;
+    z-index: 1;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--t4);
+    margin-top: 64px;
+  }
+
+  /* ── Footer ───────────────────────────────────────────────── */
+  footer {
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .footer-copy {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--t4);
+    letter-spacing: 0.05em;
+  }
+  .footer-right {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--t4);
+  }
+
+  /* ── Scroll reveal ────────────────────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── Responsive ───────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .hero { padding: 100px 24px 60px; }
+    .what-grid { grid-template-columns: 1fr; gap: 48px; }
+    .domains-grid { grid-template-columns: 1fr 1fr; }
+    .why-grid { grid-template-columns: 1fr 1fr; }
+    .roadmap-grid { grid-template-columns: repeat(3, 1fr); }
+    .specs-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 16px; }
+    .hero-stats { display: none; }
+    .hero-corner { display: none; }
+  }
+  @media (max-width: 640px) {
+    section { padding: 64px 20px; }
+    .domains-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .roadmap-grid { grid-template-columns: 1fr 1fr; }
+    .cta-actions { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Navigation ─────────────────────────────────────────── -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <svg class="nav-logo-mark" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="5" fill="#f59e0b" opacity="0.9"/>
+      <circle cx="16" cy="4" r="2.5" fill="#f59e0b" opacity="0.4"/>
+      <circle cx="16" cy="28" r="2.5" fill="#f59e0b" opacity="0.4"/>
+      <circle cx="4" cy="16" r="2.5" fill="#f59e0b" opacity="0.4"/>
+      <circle cx="28" cy="16" r="2.5" fill="#f59e0b" opacity="0.4"/>
+      <circle cx="7" cy="7" r="2" fill="#f59e0b" opacity="0.25"/>
+      <circle cx="25" cy="7" r="2" fill="#f59e0b" opacity="0.25"/>
+      <circle cx="7" cy="25" r="2" fill="#f59e0b" opacity="0.25"/>
+      <circle cx="25" cy="25" r="2" fill="#f59e0b" opacity="0.25"/>
+      <line x1="16" y1="11" x2="16" y2="6.5" stroke="#f59e0b" stroke-width="0.5" opacity="0.3"/>
+      <line x1="16" y1="21" x2="16" y2="25.5" stroke="#f59e0b" stroke-width="0.5" opacity="0.3"/>
+      <line x1="11" y1="16" x2="6.5" y2="16" stroke="#f59e0b" stroke-width="0.5" opacity="0.3"/>
+      <line x1="21" y1="16" x2="25.5" y2="16" stroke="#f59e0b" stroke-width="0.5" opacity="0.3"/>
+    </svg>
+    <span class="nav-logo-text">AURELIA</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#domains">Domains</a></li>
+    <li><a href="#why">Why AURELIA</a></li>
+    <li><a href="#pipeline">Pipeline</a></li>
+    <li><a href="#protocols">Protocols</a></li>
+    <li><a href="#consoles">Consoles</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+  </ul>
+  <a href="app/" class="nav-cta" style="text-decoration:none;display:inline-block">Launch demo</a>
+</nav>
+
+<!-- ── Hero ───────────────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-watermark">AUTONOMOUS</div>
+  <div class="hero-corner hero-corner--tl"></div>
+  <div class="hero-corner hero-corner--tr"></div>
+  <div class="hero-corner hero-corner--bl"></div>
+  <div class="hero-corner hero-corner--br"></div>
+
+  <!-- Agentic mesh: orchestrator + agents with signals flowing along edges -->
+  <div class="agent-mesh" aria-hidden="true">
+    <style>
+      .agent-mesh{position:absolute;right:-30px;top:50%;transform:translateY(-50%);width:min(640px,54vw);height:min(640px,84vh);z-index:1;pointer-events:none;opacity:.62;
+        -webkit-mask-image:radial-gradient(closest-side,#000 56%,transparent);mask-image:radial-gradient(closest-side,#000 56%,transparent)}
+      @media(max-width:960px){.agent-mesh{opacity:.2;right:-170px}}
+      .agent-mesh .edge{stroke:rgba(245,158,11,.14);stroke-width:1;fill:none}
+      .agent-mesh .node{fill:#0b0d15;stroke:rgba(245,158,11,.55);stroke-width:1.3}
+      .agent-mesh .core{fill:rgba(245,158,11,.10);stroke:rgba(245,158,11,.78);stroke-width:1.7}
+      .agent-mesh .p{fill:#f59e0b}.agent-mesh .pb{fill:#38bdf8}
+      @keyframes amnp{0%,100%{opacity:.4}50%{opacity:1}}
+      .agent-mesh .node{animation:amnp 3.2s ease-in-out infinite}
+      .agent-mesh .n2{animation-delay:.4s}.agent-mesh .n3{animation-delay:.8s}.agent-mesh .n4{animation-delay:1.2s}
+      .agent-mesh .n5{animation-delay:1.6s}.agent-mesh .n6{animation-delay:2s}.agent-mesh .n7{animation-delay:2.4s}
+      @keyframes amcore{0%,100%{opacity:.75;stroke-width:1.7}50%{opacity:1;stroke-width:2.3}}
+      .agent-mesh .core{animation:amcore 2.6s ease-in-out infinite}
+      @media(prefers-reduced-motion:reduce){.agent-mesh *{animation:none!important}.agent-mesh .p,.agent-mesh .pb{display:none}}
+    </style>
+    <svg viewBox="0 0 440 440" xmlns="http://www.w3.org/2000/svg">
+      <path class="edge" id="am1" d="M220 220 L70 92"/><path class="edge" id="am2" d="M220 220 L372 78"/>
+      <path class="edge" id="am3" d="M220 220 L58 352"/><path class="edge" id="am4" d="M220 220 L384 360"/>
+      <path class="edge" id="am5" d="M220 220 L220 46"/><path class="edge" id="am6" d="M220 220 L406 224"/>
+      <path class="edge" id="am7" d="M220 220 L40 214"/>
+      <circle class="node n1" cx="70" cy="92" r="7"/><circle class="node n2" cx="372" cy="78" r="7"/>
+      <circle class="node n3" cx="58" cy="352" r="7"/><circle class="node n4" cx="384" cy="360" r="7"/>
+      <circle class="node n5" cx="220" cy="46" r="6"/><circle class="node n6" cx="406" cy="224" r="6"/>
+      <circle class="node n7" cx="40" cy="214" r="6"/>
+      <circle class="core" cx="220" cy="220" r="13"/>
+      <circle class="p" r="2.6"><animateMotion dur="2.8s" begin="0s" repeatCount="indefinite"><mpath href="#am1"/></animateMotion></circle>
+      <circle class="pb" r="2.4"><animateMotion dur="3.2s" begin=".5s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#am2"/></animateMotion></circle>
+      <circle class="p" r="2.6"><animateMotion dur="3s" begin="1s" repeatCount="indefinite"><mpath href="#am3"/></animateMotion></circle>
+      <circle class="pb" r="2.4"><animateMotion dur="2.6s" begin="1.4s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#am4"/></animateMotion></circle>
+      <circle class="p" r="2.6"><animateMotion dur="3.4s" begin="1.8s" repeatCount="indefinite"><mpath href="#am5"/></animateMotion></circle>
+      <circle class="pb" r="2.4"><animateMotion dur="2.9s" begin="2.2s" repeatCount="indefinite" keyPoints="1;0" keyTimes="0;1" calcMode="linear"><mpath href="#am6"/></animateMotion></circle>
+      <circle class="p" r="2.6"><animateMotion dur="3.1s" begin="2.6s" repeatCount="indefinite"><mpath href="#am7"/></animateMotion></circle>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span class="hero-eyebrow-text">Autonomous Engineering Intelligence · v1.0</span>
+    </div>
+    <h1 class="hero-headline">
+      The AI platform<br>
+      that <em>thinks,</em><br>
+      plans &amp; ships.
+    </h1>
+    <p class="hero-sub">
+      AURELIA orchestrates 36 specialised AI brains across four strategic domains — turning raw backlog into shipped sprint plans, governed, validated and ready for human approval.
+    </p>
+    <div class="hero-actions">
+      <a href="app/" class="btn-primary" style="text-decoration:none;display:inline-block">See the demo</a>
+      <a href="#domains" class="btn-secondary">
+        Explore architecture
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat-number" id="brain-counter">36</div>
+    <div class="hero-stat-label">AI Brains</div>
+  </div>
+</section>
+
+<!-- ── Ticker ─────────────────────────────────────────────── -->
+<div class="ticker-bar">
+  <div class="ticker-track" id="ticker">
+    <div class="ticker-item"><span class="accent">FORESIGHT</span><div class="ticker-dot"></div>Product Intelligence</div>
+    <div class="ticker-item"><span class="accent">FOUNDRY</span><div class="ticker-dot"></div>Software Creation</div>
+    <div class="ticker-item"><span class="accent">SENTINEL</span><div class="ticker-dot"></div>System Operations</div>
+    <div class="ticker-item"><span class="accent">TRIBUNAL</span><div class="ticker-dot"></div>Safety &amp; Control</div>
+    <div class="ticker-item">ABIP · AWEC · ACML · ACPL</div>
+    <div class="ticker-item"><span class="accent">36 Brains</span><div class="ticker-dot"></div>6 Phases</div>
+    <div class="ticker-item">Zero manual orchestration</div>
+    <div class="ticker-item"><span class="accent">Python</span> · FastAPI · React 18</div>
+    <div class="ticker-item">Autonomous Sprint Planning</div>
+    <div class="ticker-item"><span class="accent">FORESIGHT</span><div class="ticker-dot"></div>Product Intelligence</div>
+    <div class="ticker-item"><span class="accent">FOUNDRY</span><div class="ticker-dot"></div>Software Creation</div>
+    <div class="ticker-item"><span class="accent">SENTINEL</span><div class="ticker-dot"></div>System Operations</div>
+    <div class="ticker-item"><span class="accent">TRIBUNAL</span><div class="ticker-dot"></div>Safety &amp; Control</div>
+    <div class="ticker-item">ABIP · AWEC · ACML · ACPL</div>
+    <div class="ticker-item"><span class="accent">36 Brains</span><div class="ticker-dot"></div>6 Phases</div>
+    <div class="ticker-item">Zero manual orchestration</div>
+    <div class="ticker-item"><span class="accent">Python</span> · FastAPI · React 18</div>
+    <div class="ticker-item">Autonomous Sprint Planning</div>
+  </div>
+</div>
+
+<!-- ── Live Consoles ───────────────────────────────────────── -->
+<section id="consoles" class="consoles-section">
+  <style>
+    .consoles-section{max-width:1200px;margin:0 auto;padding:96px 48px 40px}
+    .consoles-head{text-align:center;margin-bottom:46px}
+    .consoles-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
+    .consoles-title{font-family:'IBM Plex Sans',sans-serif;font-weight:800;font-size:clamp(26px,4vw,42px);letter-spacing:-.02em;line-height:1.05}
+    .consoles-title em{font-family:'IBM Plex Sans',serif;font-style:italic;font-weight:300;color:var(--amber)}
+    .consoles-sub{color:var(--t2);font-size:15px;max-width:580px;margin:16px auto 0;line-height:1.6}
+    .consoles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    @media(max-width:900px){.consoles-section{padding:64px 22px 24px}.consoles-grid{grid-template-columns:1fr}}
+    .console-card{position:relative;display:flex;flex-direction:column;background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:28px 26px;text-decoration:none;color:inherit;overflow:hidden;transition:transform .2s,border-color .2s,box-shadow .2s}
+    .console-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--ac);opacity:.85}
+    .console-card::after{content:'';position:absolute;top:-50px;right:-50px;width:170px;height:170px;background:radial-gradient(circle,var(--ac),transparent 70%);opacity:.10;transition:opacity .25s}
+    .console-card:hover{transform:translateY(-6px);border-color:var(--border-strong);box-shadow:0 24px 55px rgba(0,0,0,.45)}
+    .console-card:hover::after{opacity:.22}
+    .cc-icon{width:48px;height:48px;border-radius:13px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border-strong);background:rgba(255,255,255,.02);color:var(--ac);margin-bottom:20px}
+    .cc-tag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ac)}
+    .cc-name{font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:22px;margin:7px 0 8px}
+    .cc-line{font-size:13px;color:var(--t2);line-height:1.6;flex:1}
+    .cc-tech{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--t3);margin:18px 0 18px;letter-spacing:.02em}
+    .cc-launch{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:13px;color:var(--ac)}
+    .cc-launch svg{transition:transform .2s}
+    .console-card:hover .cc-launch svg{transform:translateX(4px)}
+  </style>
+  <div class="consoles-head">
+    <div class="consoles-eyebrow">Live Demos · No Login</div>
+    <h2 class="consoles-title">Three consoles, <em>one</em> platform.</h2>
+    <p class="consoles-sub">Fully interactive and running on illustrative sample data — no backend required. Explore each autonomous system live.</p>
+  </div>
+  <div class="consoles-grid">
+    <a class="console-card" href="app/" style="--ac:var(--amber)">
+      <div class="cc-icon"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+      <div class="cc-tag">Sprint Intelligence</div>
+      <div class="cc-name">AURELIA App</div>
+      <div class="cc-line">Autonomous Agile sprint planning. A 7-brain AI pipeline turns a raw backlog into a validated, governed sprint plan — stories, tasks, QA, delivery, and a confidence verdict — in seconds.</div>
+      <div class="cc-tech">React · 7 brains · backend-free</div>
+      <div class="cc-launch">Launch console <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+    <a class="console-card" href="ams/" style="--ac:var(--blue)">
+      <div class="cc-icon"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1.5v4M15 1.5v4M9 18.5v4M15 18.5v4M1.5 9h4M1.5 15h4M18.5 9h4M18.5 15h4"/></svg></div>
+      <div class="cc-tag">Self-Improving Model</div>
+      <div class="cc-name">Model Service API</div>
+      <div class="cc-line">AURELIA's own online-learning model. Estimate effort, forecast sprints, and watch prediction error fall live as the model learns from each realized outcome — an interactive API playground.</div>
+      <div class="cc-tech">FastAPI · River · 6 heads</div>
+      <div class="cc-launch">Open playground <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+    <a class="console-card" href="devops/" style="--ac:var(--teal)">
+      <div class="cc-icon"><svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l8 3v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V5z"/><path d="M8.5 12l2.2 2.2L15.5 9.5"/></svg></div>
+      <div class="cc-tag">Autonomous Operations</div>
+      <div class="cc-name">DevOps Agent AI</div>
+      <div class="cc-line">An agentic SRE that investigates production incidents end-to-end — observe, correlate, find root cause, remediate, and verify — across a 9-step autonomous pipeline with human approval gates.</div>
+      <div class="cc-tech">LangGraph · K8s · 9-step pipeline</div>
+      <div class="cc-launch">Open console <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    </a>
+  </div>
+</section>
+
+<!-- ── What is AURELIA ─────────────────────────────────────── -->
+<section class="what-section" id="about">
+  <div class="what-grid">
+    <div class="what-left">
+      <div class="section-eyebrow">What is AURELIA</div>
+      <h2 class="section-title">One platform.<br><em>Infinite</em> brain power.</h2>
+      <p class="section-desc">AURELIA is a multi-brain AI platform where each brain is a specialised reasoning engine. Together, they plan your sprints, write your tasks, build your QA strategy, and govern every decision — without you lifting a finger.</p>
+      <div class="acronym">
+        <div class="acronym-row"><span class="acronym-letter">A</span><span class="acronym-word"><em>Autonomous</em> — no manual orchestration</span></div>
+        <div class="acronym-row"><span class="acronym-letter">U</span><span class="acronym-word"><em>Unified</em> — one platform, all engineering phases</span></div>
+        <div class="acronym-row"><span class="acronym-letter">R</span><span class="acronym-word"><em>Reasoning</em> — each brain thinks step-by-step</span></div>
+        <div class="acronym-row"><span class="acronym-letter">E</span><span class="acronym-word"><em>Engine</em> — production-grade, not a prototype</span></div>
+        <div class="acronym-row"><span class="acronym-letter">L</span><span class="acronym-word"><em>Lifecycle</em> — from backlog to production monitor</span></div>
+        <div class="acronym-row"><span class="acronym-letter">I</span><span class="acronym-word"><em>Intelligent</em> — memory-driven, learns over time</span></div>
+        <div class="acronym-row"><span class="acronym-letter">A</span><span class="acronym-word"><em>Architecture</em> — structured, extensible, enterprise-ready</span></div>
+      </div>
+    </div>
+    <div class="what-right reveal">
+      <div class="what-card">
+        <div class="what-card-title">Problem it solves</div>
+        <div class="what-card-desc">Sprint planning takes 4–8 hours of human effort every two weeks. Backlogs go ungroomed. QA coverage is inconsistent. Delivery risk is discovered too late. AURELIA eliminates all of this.</div>
+      </div>
+      <div class="what-card">
+        <div class="what-card-title">How it works</div>
+        <div class="what-card-desc">You provide backlog items and team configuration. AURELIA's 7-brain pipeline runs autonomously — generating stories, estimating capacity, decomposing tasks, building QA plans, and validating the result before it reaches you.</div>
+      </div>
+      <div class="what-card">
+        <div class="what-card-title">What you get</div>
+        <div class="what-card-desc">A complete sprint plan with acceptance criteria, story points, developer tasks, QA scenarios, deployment strategy, and a governance confidence score — in under 90 seconds.</div>
+      </div>
+      <div class="what-card">
+        <div class="what-card-title">Who it's for</div>
+        <div class="what-card-desc">Engineering teams that ship regularly, CTOs who need predictable delivery, and platform teams building the next generation of autonomous software operations.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Domain Taxonomy ─────────────────────────────────────── -->
+<section id="domains">
+  <div class="domains-section">
+    <div class="domains-header reveal">
+      <div>
+        <div class="section-eyebrow">Four Strategic Domains</div>
+        <h2 class="section-title">The taxonomy of <em>intelligence.</em></h2>
+      </div>
+      <div class="brain-total">
+        <strong>36</strong>
+        AI Brains<br>across 6 phases
+      </div>
+    </div>
+    <div class="domains-grid">
+      <!-- FORESIGHT -->
+      <div class="domain-card domain-card--foresight reveal">
+        <div class="domain-tag"><div class="domain-tag-dot"></div>Foresight</div>
+        <div class="domain-name">FORESIGHT</div>
+        <div class="domain-identity">// product intelligence</div>
+        <div class="domain-question">"What should we build, and why?"</div>
+        <div class="domain-brains">
+          <div class="domain-brain-item">product_brain</div>
+          <div class="domain-brain-item">architecture_brain</div>
+          <div class="domain-brain-item">planning_brain</div>
+          <div class="domain-brain-item">delivery_brain</div>
+          <div class="domain-brain-item">roadmap_brain</div>
+          <div class="domain-brain-item">prioritisation_brain</div>
+          <div class="domain-brain-item">stakeholder_brain</div>
+          <div class="domain-brain-item">customer_insight_brain</div>
+        </div>
+        <div class="domain-count"><strong>10</strong>brains in domain</div>
+      </div>
+
+      <!-- FOUNDRY -->
+      <div class="domain-card domain-card--foundry reveal reveal-delay-1">
+        <div class="domain-tag"><div class="domain-tag-dot" style="animation-delay:0.5s"></div>Foundry</div>
+        <div class="domain-name">FOUNDRY</div>
+        <div class="domain-identity">// software creation</div>
+        <div class="domain-question">"How do we build it correctly?"</div>
+        <div class="domain-brains">
+          <div class="domain-brain-item">implementation_brain</div>
+          <div class="domain-brain-item">quality_brain</div>
+          <div class="domain-brain-item">code_generation_brain</div>
+          <div class="domain-brain-item">code_review_brain</div>
+          <div class="domain-brain-item">build_brain</div>
+          <div class="domain-brain-item">release_brain</div>
+          <div class="domain-brain-item">refactoring_brain</div>
+          <div class="domain-brain-item">technical_debt_brain</div>
+        </div>
+        <div class="domain-count"><strong>10</strong>brains in domain</div>
+      </div>
+
+      <!-- SENTINEL -->
+      <div class="domain-card domain-card--sentinel reveal reveal-delay-2">
+        <div class="domain-tag"><div class="domain-tag-dot" style="animation-delay:1s"></div>Sentinel</div>
+        <div class="domain-name">SENTINEL</div>
+        <div class="domain-identity">// system operations</div>
+        <div class="domain-question">"Is our system healthy and self-healing?"</div>
+        <div class="domain-brains">
+          <div class="domain-brain-item">observability_brain</div>
+          <div class="domain-brain-item">assurance_brain</div>
+          <div class="domain-brain-item">incident_brain</div>
+          <div class="domain-brain-item">recovery_brain</div>
+          <div class="domain-brain-item">optimisation_brain</div>
+          <div class="domain-brain-item">capacity_brain</div>
+          <div class="domain-brain-item">cost_optimisation_brain</div>
+          <div class="domain-brain-item">chaos_engineering_brain</div>
+        </div>
+        <div class="domain-count"><strong>10</strong>brains in domain</div>
+      </div>
+
+      <!-- TRIBUNAL -->
+      <div class="domain-card domain-card--tribunal reveal reveal-delay-3">
+        <div class="domain-tag"><div class="domain-tag-dot" style="animation-delay:1.5s"></div>Tribunal</div>
+        <div class="domain-name">TRIBUNAL</div>
+        <div class="domain-identity">// safety &amp; control</div>
+        <div class="domain-question">"Is every decision safe, coherent, and compliant?"</div>
+        <div class="domain-brains">
+          <div class="domain-brain-item">meta_reasoning_brain</div>
+          <div class="domain-brain-item">security_brain</div>
+          <div class="domain-brain-item">compliance_brain</div>
+          <div class="domain-brain-item">risk_brain</div>
+          <div class="domain-brain-item">policy_brain</div>
+          <div class="domain-brain-item">audit_brain</div>
+        </div>
+        <div class="domain-count"><strong>6</strong>brains in domain</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Why AURELIA ─────────────────────────────────────────── -->
+<section class="why-section" id="why">
+  <div class="section-eyebrow">Why AURELIA</div>
+  <h2 class="section-title">Built different.<br><em>Engineered</em> to last.</h2>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <div class="why-number">01</div>
+      <svg class="why-icon" viewBox="0 0 40 40" fill="none">
+        <rect x="4" y="4" width="32" height="32" rx="2" stroke="#f59e0b" stroke-width="0.75" opacity="0.3"/>
+        <circle cx="20" cy="20" r="6" fill="#f59e0b" opacity="0.15"/>
+        <circle cx="20" cy="20" r="2.5" fill="#f59e0b"/>
+        <line x1="20" y1="8" x2="20" y2="14" stroke="#f59e0b" stroke-width="1" opacity="0.4"/>
+        <line x1="20" y1="26" x2="20" y2="32" stroke="#f59e0b" stroke-width="1" opacity="0.4"/>
+        <line x1="8" y1="20" x2="14" y2="20" stroke="#f59e0b" stroke-width="1" opacity="0.4"/>
+        <line x1="26" y1="20" x2="32" y2="20" stroke="#f59e0b" stroke-width="1" opacity="0.4"/>
+      </svg>
+      <div class="why-title">Zero manual orchestration</div>
+      <div class="why-desc">You send a backlog. AURELIA runs 7 brains in sequence, passes context between them, handles retries, and returns a complete sprint plan. No middleware to configure. No prompts to tune.</div>
+      <span class="why-tag">ABIP Protocol</span>
+    </div>
+    <div class="why-card reveal reveal-delay-1">
+      <div class="why-number">02</div>
+      <svg class="why-icon" viewBox="0 0 40 40" fill="none">
+        <path d="M8 32L8 12L20 6L32 12V32" stroke="#38bdf8" stroke-width="0.75" opacity="0.3"/>
+        <rect x="14" y="20" width="12" height="12" stroke="#38bdf8" stroke-width="0.75" opacity="0.4"/>
+        <path d="M16 20V16L20 12L24 16V20" stroke="#38bdf8" stroke-width="0.75" opacity="0.6"/>
+        <circle cx="20" cy="14" r="1.5" fill="#38bdf8"/>
+      </svg>
+      <div class="why-title">Typed context per brain</div>
+      <div class="why-desc">Each brain receives exactly the data it needs — pre-typed, pre-computed, pre-validated. No generic dict digging. The Planning Brain gets typed velocity records. The Security Brain gets live CVE entries.</div>
+      <span class="why-tag">ContextFactory</span>
+    </div>
+    <div class="why-card reveal reveal-delay-2">
+      <div class="why-number">03</div>
+      <svg class="why-icon" viewBox="0 0 40 40" fill="none">
+        <path d="M6 34L20 6L34 34" stroke="#2dd4bf" stroke-width="0.75" opacity="0.3" fill="none"/>
+        <line x1="11" y1="24" x2="29" y2="24" stroke="#2dd4bf" stroke-width="0.75" opacity="0.4"/>
+        <circle cx="20" cy="17" r="2" fill="#2dd4bf" opacity="0.8"/>
+        <circle cx="14" cy="24" r="2" fill="#2dd4bf" opacity="0.4"/>
+        <circle cx="26" cy="24" r="2" fill="#2dd4bf" opacity="0.4"/>
+      </svg>
+      <div class="why-title">Memory-driven learning</div>
+      <div class="why-desc">ACML — the Cognitive Memory Layer — feeds each brain historical sprint velocity, past architecture decisions, known risk patterns, and vector-embedded context from Qdrant. Every sprint gets smarter.</div>
+      <span class="why-tag">ACML · PostgreSQL · Qdrant</span>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-number">04</div>
+      <svg class="why-icon" viewBox="0 0 40 40" fill="none">
+        <rect x="6" y="14" width="28" height="20" rx="1" stroke="#a78bfa" stroke-width="0.75" opacity="0.3"/>
+        <rect x="10" y="18" width="8" height="6" rx="0.5" fill="#a78bfa" opacity="0.2"/>
+        <rect x="22" y="18" width="8" height="6" rx="0.5" stroke="#a78bfa" stroke-width="0.5" opacity="0.4"/>
+        <rect x="10" y="26" width="20" height="4" rx="0.5" stroke="#a78bfa" stroke-width="0.5" opacity="0.3"/>
+        <path d="M16 14V10L20 6L24 10V14" stroke="#a78bfa" stroke-width="0.75" opacity="0.5" fill="none"/>
+      </svg>
+      <div class="why-title">Governance built-in</div>
+      <div class="why-desc">The Meta-Reasoning Brain runs last — always. It validates outputs from all 6 prior brains, detects hallucinations, flags cross-brain inconsistencies, and issues a confidence-scored verdict before any plan reaches a human.</div>
+      <span class="why-tag">TRIBUNAL Domain</span>
+    </div>
+    <div class="why-card reveal reveal-delay-1">
+      <div class="why-number">05</div>
+      <svg class="why-icon" viewBox="0 0 40 40" fill="none">
+        <rect x="6" y="6" width="28" height="28" rx="2" stroke="#f59e0b" stroke-width="0.75" opacity="0.2"/>
+        <path d="M14 20L18 24L26 16" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="20" cy="20" r="12" stroke="#f59e0b" stroke-width="0.5" opacity="0.2" stroke-dasharray="2 3"/>
+      </svg>
+      <div class="why-title">Plug-and-play brain registry</div>
+      <div class="why-desc">New brains self-register on startup. The Orchestrator discovers them automatically — no routing tables to edit, no configuration changes, no pipeline rewrites. Add a brain in one line. The platform adapts.</div>
+      <span class="why-tag">Open/Closed Principle</span>
+    </div>
+    <div class="why-card reveal reveal-delay-2">
+      <div class="why-number">06</div>
+      <svg class="why-icon" viewBox="0 0 40 40" fill="none">
+        <rect x="4" y="24" width="10" height="12" rx="1" fill="#38bdf8" opacity="0.15"/>
+        <rect x="4" y="24" width="10" height="12" rx="1" stroke="#38bdf8" stroke-width="0.75" opacity="0.5"/>
+        <rect x="16" y="14" width="10" height="22" rx="1" fill="#38bdf8" opacity="0.1"/>
+        <rect x="16" y="14" width="10" height="22" rx="1" stroke="#38bdf8" stroke-width="0.75" opacity="0.4"/>
+        <rect x="28" y="6" width="8" height="30" rx="1" fill="#38bdf8" opacity="0.06"/>
+        <rect x="28" y="6" width="8" height="30" rx="1" stroke="#38bdf8" stroke-width="0.75" opacity="0.3"/>
+      </svg>
+      <div class="why-title">Structured reasoning traces</div>
+      <div class="why-desc">Every brain returns a full chain of thought — step number, thought, evidence, and confidence score per step. You know exactly what AURELIA decided and why. Full explainability, zero black-box.</div>
+      <span class="why-tag">ReasoningStep · ACPL</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pipeline ────────────────────────────────────────────── -->
+<section class="pipeline-section" id="pipeline">
+  <div class="section-header">
+    <div class="section-eyebrow">Sprint Planning Pipeline</div>
+    <h2 class="section-title">7 brains.<br><em>One</em> sprint plan.</h2>
+    <p class="section-desc">The MVP pipeline runs in sequence — each brain consuming the outputs of all prior brains. The Orchestrator handles routing, timeouts, and retries automatically.</p>
+  </div>
+  <div class="pipeline-track reveal">
+    <div class="pipeline-step">
+      <div class="pipeline-card pipeline-card--foresight">
+        <div class="pipeline-domain-badge"></div>
+        <div class="pipeline-pos">step 01 · FORESIGHT</div>
+        <div class="pipeline-brain">Product Brain</div>
+        <div class="pipeline-action">Backlog → user stories, AC, story points</div>
+      </div>
+    </div>
+    <div class="pipeline-connector"><div class="pipeline-arrow"></div></div>
+    <div class="pipeline-step">
+      <div class="pipeline-card pipeline-card--foresight">
+        <div class="pipeline-domain-badge"></div>
+        <div class="pipeline-pos">step 02 · FORESIGHT</div>
+        <div class="pipeline-brain">Architecture Brain</div>
+        <div class="pipeline-action">System impact, ADRs, API &amp; DB changes</div>
+      </div>
+    </div>
+    <div class="pipeline-connector"><div class="pipeline-arrow"></div></div>
+    <div class="pipeline-step">
+      <div class="pipeline-card pipeline-card--foresight">
+        <div class="pipeline-domain-badge"></div>
+        <div class="pipeline-pos">step 03 · FORESIGHT</div>
+        <div class="pipeline-brain">Planning Brain</div>
+        <div class="pipeline-action">Capacity calc, sprint backlog selection</div>
+      </div>
+    </div>
+    <div class="pipeline-connector"><div class="pipeline-arrow"></div></div>
+    <div class="pipeline-step">
+      <div class="pipeline-card pipeline-card--foundry">
+        <div class="pipeline-domain-badge"></div>
+        <div class="pipeline-pos">step 04 · FOUNDRY</div>
+        <div class="pipeline-brain">Implementation Brain</div>
+        <div class="pipeline-action">Story → developer tasks, repo mapping</div>
+      </div>
+    </div>
+    <div class="pipeline-connector"><div class="pipeline-arrow"></div></div>
+    <div class="pipeline-step">
+      <div class="pipeline-card pipeline-card--foundry">
+        <div class="pipeline-domain-badge"></div>
+        <div class="pipeline-pos">step 05 · FOUNDRY</div>
+        <div class="pipeline-brain">Quality Brain</div>
+        <div class="pipeline-action">QA strategy, test scenarios, perf &amp; security</div>
+      </div>
+    </div>
+    <div class="pipeline-connector"><div class="pipeline-arrow"></div></div>
+    <div class="pipeline-step">
+      <div class="pipeline-card pipeline-card--foresight">
+        <div class="pipeline-domain-badge"></div>
+        <div class="pipeline-pos">step 06 · FORESIGHT</div>
+        <div class="pipeline-brain">Delivery Brain</div>
+        <div class="pipeline-action">CI/CD plan, canary strategy, release checklist</div>
+      </div>
+    </div>
+    <div class="pipeline-connector"><div class="pipeline-arrow"></div></div>
+    <div class="pipeline-step">
+      <div class="pipeline-card pipeline-card--tribunal">
+        <div class="pipeline-domain-badge"></div>
+        <div class="pipeline-pos">step 07 · TRIBUNAL</div>
+        <div class="pipeline-brain">Meta-Reasoning Brain</div>
+        <div class="pipeline-action">Cross-brain validation, verdict, risk report</div>
+      </div>
+    </div>
+    <div class="pipeline-connector">
+      <div style="width:32px;height:1px;background:linear-gradient(90deg,var(--amber),transparent);opacity:0.2"></div>
+    </div>
+    <div class="pipeline-step">
+      <div class="pipeline-card" style="border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.03)">
+        <div class="pipeline-pos" style="color:var(--amber)">output</div>
+        <div class="pipeline-brain" style="color:var(--amber)">Sprint Plan</div>
+        <div class="pipeline-action">Complete plan delivered to human reviewer</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Protocols ───────────────────────────────────────────── -->
+<section class="specs-section" id="protocols">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="section-eyebrow">Core Protocols</div>
+    <h2 class="section-title">The contracts that<br><em>bind</em> the platform.</h2>
+    <div class="specs-grid">
+      <div class="spec-card reveal">
+        <div class="spec-acronym">ABIP</div>
+        <div class="spec-name">Brain Interface Protocol</div>
+        <div class="spec-desc">The execution contract every brain implements. Defines how the Orchestrator routes, what brains receive, and what they must return. All brains are interchangeable because ABIP makes them identical at the boundary.</div>
+        <div class="spec-items">
+          <div class="spec-item">Generic typed base: AureliaBrain[C]</div>
+          <div class="spec-item">execute() wraps _execute_logic() with timing + error isolation</div>
+          <div class="spec-item">BrainRegistration published to registry on startup</div>
+          <div class="spec-item">BrainResult returns status, output, reasoning trace, warnings</div>
+        </div>
+      </div>
+      <div class="spec-card reveal reveal-delay-1">
+        <div class="spec-acronym">AWEC</div>
+        <div class="spec-name">Work Execution Context</div>
+        <div class="spec-desc">Defines who does the work — human, AI, or hybrid. AWEC fields are embedded in each brain's typed context and surface in the result's execution_plan so every output comes with a clear delivery ownership model.</div>
+        <div class="spec-items">
+          <div class="spec-item">execution_mode: human | ai | hybrid</div>
+          <div class="spec-item">automation_level: manual | assisted | autonomous</div>
+          <div class="spec-item">estimated_mandays per story and task</div>
+          <div class="spec-item">handoff_required flag for human gates</div>
+        </div>
+      </div>
+      <div class="spec-card reveal">
+        <div class="spec-acronym">ACML</div>
+        <div class="spec-name">Cognitive Memory Layer</div>
+        <div class="spec-desc">Historical intelligence injected into every brain before reasoning begins. Backed by PostgreSQL for structured sprint history and Qdrant for semantic vector search. Brains don't re-fetch — ContextFactory pre-hydrates it.</div>
+        <div class="spec-items">
+          <div class="spec-item">sprint_history — past sprint outcomes and velocity</div>
+          <div class="spec-item">team_velocity — rolling average, pre-computed</div>
+          <div class="spec-item">architecture_decisions — ADR history</div>
+          <div class="spec-item">known_risks — recurring failure patterns</div>
+          <div class="spec-item">embedding_ids — Qdrant vector document refs</div>
+        </div>
+      </div>
+      <div class="spec-card reveal reveal-delay-1">
+        <div class="spec-acronym">ACPL</div>
+        <div class="spec-name">Cognitive Prompt Language</div>
+        <div class="spec-desc">The structured reasoning discipline every brain follows. Two constants per brain — a SYSTEM identity prompt and a USER template — structured in six sections that force coherent, reproducible LLM reasoning.</div>
+        <div class="spec-items">
+          <div class="spec-item">[INTENT] — what the brain is trying to achieve</div>
+          <div class="spec-item">[CONTEXT] — structured input data as JSON</div>
+          <div class="spec-item">[CONSTRAINTS] — non-negotiable rules</div>
+          <div class="spec-item">[MEMORY] — injected ACML context</div>
+          <div class="spec-item">[REASONING] — step-by-step chain of thought</div>
+          <div class="spec-item">[OUTPUT] — typed JSON schema specification</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Roadmap ─────────────────────────────────────────────── -->
+<section class="roadmap-section" id="roadmap">
+  <div class="section-eyebrow">Six-Phase Roadmap</div>
+  <h2 class="section-title">From sprint planning<br>to <em>full autonomy.</em></h2>
+  <p class="section-desc">AURELIA is designed to grow. Each phase adds a new capability layer without touching the core architecture.</p>
+  <div class="roadmap-grid reveal">
+    <div class="roadmap-phase active">
+      <div class="roadmap-num">Phase 1</div>
+      <div class="roadmap-title">Autonomous Sprint Planning</div>
+      <div class="roadmap-domain roadmap-domain--foresight">FORESIGHT + FOUNDRY + TRIBUNAL</div>
+      <div class="roadmap-brains">
+        <div class="roadmap-brain">Product Brain</div>
+        <div class="roadmap-brain">Architecture Brain</div>
+        <div class="roadmap-brain">Planning Brain</div>
+        <div class="roadmap-brain">Implementation Brain</div>
+        <div class="roadmap-brain">Quality Brain</div>
+        <div class="roadmap-brain">Delivery Brain</div>
+        <div class="roadmap-brain">Meta-Reasoning Brain</div>
+      </div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="roadmap-num">Phase 2</div>
+      <div class="roadmap-title">Agentic DevOps</div>
+      <div class="roadmap-domain roadmap-domain--sentinel">SENTINEL</div>
+      <div class="roadmap-brains">
+        <div class="roadmap-brain">Observability Brain</div>
+        <div class="roadmap-brain">Assurance Brain</div>
+        <div class="roadmap-brain">Incident Brain</div>
+        <div class="roadmap-brain">Recovery Brain</div>
+      </div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="roadmap-num">Phase 3</div>
+      <div class="roadmap-title">Autonomous Development</div>
+      <div class="roadmap-domain roadmap-domain--foundry">FOUNDRY</div>
+      <div class="roadmap-brains">
+        <div class="roadmap-brain">Code Generation Brain</div>
+        <div class="roadmap-brain">Code Review Brain</div>
+        <div class="roadmap-brain">Build Brain</div>
+        <div class="roadmap-brain">Release Brain</div>
+      </div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="roadmap-num">Phase 4</div>
+      <div class="roadmap-title">Autonomous Testing</div>
+      <div class="roadmap-domain roadmap-domain--foundry">FOUNDRY</div>
+      <div class="roadmap-brains">
+        <div class="roadmap-brain">Test Design Brain</div>
+        <div class="roadmap-brain">Test Execution Brain</div>
+        <div class="roadmap-brain">Quality Analysis Brain</div>
+      </div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="roadmap-num">Phase 5</div>
+      <div class="roadmap-title">Autonomous Operations</div>
+      <div class="roadmap-domain roadmap-domain--sentinel">SENTINEL</div>
+      <div class="roadmap-brains">
+        <div class="roadmap-brain">Optimisation Brain</div>
+        <div class="roadmap-brain">Capacity Brain</div>
+        <div class="roadmap-brain">Cost Optimisation Brain</div>
+      </div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="roadmap-num">Phase 6</div>
+      <div class="roadmap-title">Enterprise Governance</div>
+      <div class="roadmap-domain roadmap-domain--tribunal">TRIBUNAL</div>
+      <div class="roadmap-brains">
+        <div class="roadmap-brain">Security Brain</div>
+        <div class="roadmap-brain">Compliance Brain</div>
+        <div class="roadmap-brain">Risk Brain</div>
+        <div class="roadmap-brain">Policy Brain</div>
+        <div class="roadmap-brain">Audit Brain</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ─────────────────────────────────────────────────── -->
+<section class="cta-section">
+  <div class="cta-bg"></div>
+  <div style="position:relative;z-index:1">
+    <div class="cta-badge">
+      <div class="cta-badge-dot"></div>
+      Now in active development · Phase 1 complete
+    </div>
+    <h2 class="cta-headline">
+      Stop planning<br>sprints.<br>
+      <em>Start shipping.</em>
+    </h2>
+    <p class="cta-sub">AURELIA handles the backlog, the tasks, the QA, and the governance. You handle the decisions that actually need a human.</p>
+    <div class="cta-actions">
+      <a href="app/" class="btn-primary" style="text-decoration:none;display:inline-block">Launch live demo</a>
+      <a href="https://github.com/miorfaridhal/aurelia" class="btn-secondary" target="_blank">
+        View on GitHub
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+    <div class="cta-version">AURELIA v1.0 · 7 brains · Phase 1 MVP · Autonomous Engineering Intelligence</div>
+  </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-left">
+    <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="4" fill="#f59e0b" opacity="0.7"/>
+      <circle cx="16" cy="5" r="2" fill="#f59e0b" opacity="0.3"/>
+      <circle cx="16" cy="27" r="2" fill="#f59e0b" opacity="0.3"/>
+      <circle cx="5" cy="16" r="2" fill="#f59e0b" opacity="0.3"/>
+      <circle cx="27" cy="16" r="2" fill="#f59e0b" opacity="0.3"/>
+    </svg>
+    <span class="footer-copy">AURELIA — Autonomous Unified Reasoning Engine for Lifecycle Intelligent Architecture</span>
+  </div>
+  <div class="footer-right">FORESIGHT · FOUNDRY · SENTINEL · TRIBUNAL</div>
+</footer>
+
+<script>
+  // ── Scroll nav ─────────────────────────────────────────────
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // ── Scroll reveal ──────────────────────────────────────────
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // ── Ticker duplication (seamless loop) ────────────────────
+  const ticker = document.getElementById('ticker');
+  // Already duplicated in HTML for seamless loop
+
+  // ── Brain counter animation ────────────────────────────────
+  const counter = document.getElementById('brain-counter');
+  let counted = false;
+  const counterObserver = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting && !counted) {
+      counted = true;
+      let n = 0;
+      const end = 36;
+      const step = () => {
+        n = Math.min(n + 2, end);
+        counter.textContent = n;
+        if (n < end) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }
+  });
+  counterObserver.observe(counter);
+
+  // ── Parallax watermark ─────────────────────────────────────
+  const watermark = document.querySelector('.hero-watermark');
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    if (watermark) watermark.style.transform = `translate(-50%, calc(-50% + ${y * 0.3}px))`;
+  }, { passive: true });
+</script>
+</body>
+</html>

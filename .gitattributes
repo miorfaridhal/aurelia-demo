@@ -1,0 +1,9 @@
+# This repo holds compiled build output only, synced from the private `aurelia`
+# repo by scripts/sync-demo.sh (Windows, manual) or deploy-demo.yml (Linux CI).
+#
+# Force LF in the repository regardless of which platform published. Without
+# this, git stores whatever line endings the publishing machine happened to
+# produce, so Windows and Linux syncs flip the whole file back and forth and
+# every publish shows a thousand-line diff instead of the few lines that
+# actually changed.
+* text=auto eol=lf
