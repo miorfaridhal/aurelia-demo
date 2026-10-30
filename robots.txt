@@ -1,0 +1,28 @@
+# robots.txt for the AURELIA demo
+#
+# READ THIS BEFORE RELYING ON IT.
+#
+# Crawlers fetch robots.txt from the HOST ROOT only:
+#
+#     https://miorfaridhal.github.io/robots.txt      <- the one they read
+#     https://miorfaridhal.github.io/aurelia-demo/robots.txt   <- this file
+#
+# This is a GitHub Pages *project* site, so it is served from a subpath and
+# cannot publish anything at the host root. That root currently 404s, and it
+# would be owned by a `miorfaridhal.github.io` repository, which does not
+# exist. So the directives below are NOT honoured today.
+#
+# This file is kept for two reasons:
+#   1. It becomes live the moment a custom domain is attached to this repo,
+#      because then this directory IS the host root.
+#   2. It documents the intent, so nobody adds a second copy wondering why
+#      the first had no effect.
+#
+# The sitemap does not depend on any of this. Submit it directly in Google
+# Search Console (Sitemaps -> "sitemap.xml"); the Sitemap: line below is a
+# convenience for crawlers that find this file, not the delivery mechanism.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://miorfaridhal.github.io/aurelia-demo/sitemap.xml

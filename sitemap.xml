@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Submit this directly in Google Search Console (Sitemaps -> enter
+  "sitemap.xml"). It does NOT rely on robots.txt, which is not honoured at
+  this path - see robots.txt in this directory for why.
+
+  Every URL must sit under /aurelia-demo/, the directory this sitemap is
+  served from; a sitemap may only list URLs at or below its own path.
+
+  lastmod values are the real last-commit dates for each published path, not
+  the date this file was written. A lastmod that always says "today" teaches
+  a crawler to stop trusting the field.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Landing page -->
+  <url>
+    <loc>https://miorfaridhal.github.io/aurelia-demo/</loc>
+    <lastmod>2026-10-30</lastmod>
+  </url>
+
+  <!-- Sprint planning console (Vite build, synced from aurelia/frontend) -->
+  <url>
+    <loc>https://miorfaridhal.github.io/aurelia-demo/app/</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <!-- Agentic DevOps operations console -->
+  <url>
+    <loc>https://miorfaridhal.github.io/aurelia-demo/devops/</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+  <!-- Model service API playground -->
+  <url>
+    <loc>https://miorfaridhal.github.io/aurelia-demo/ams/</loc>
+    <lastmod>2026-08-19</lastmod>
+  </url>
+
+</urlset>
